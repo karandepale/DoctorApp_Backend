@@ -1,3 +1,5 @@
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using RepoLayer.Interfaces;
+using RepoLayer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +31,23 @@ namespace DoctorListApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "DOCTOR LIST APPLICATION",
+                    Version = "v1",
+                    Description = "API'S FOR DOCTORLIST APPLICATION",
+                });
+            });
+
+
+
+            //USER SERVICES CONFIGURATION:-
+            services.AddTransient<IUserBusiness, UserBusiness>();
+            services.AddTransient<IUserRepo, UserRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +57,12 @@ namespace DoctorListApp
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Register v1");
+            });
 
             app.UseHttpsRedirection();
 
