@@ -10,11 +10,10 @@ create table Users    (
 	  Create_At Date,
 	  Update_At Date
 	);
-	Select * From Users;
-	drop table Users;
-
-Create Procedure SPUsers
+	
+create OR alter Procedure SP_Users_Registration
 (
+@RoleID int,
 @FullName varchar(400),
 @Email varchar(400),
 @Password varchar(500),
@@ -25,11 +24,24 @@ Create Procedure SPUsers
 as
 begin 
 begin try
-insert into Users(FullName, Email, Password, Contact, Create_At, Update_At)
-values(@FullName, @Email, @Password, @Contact, @Create_At, @Update_At)
+insert into Users(RoleID ,FullName, Email, Password, Contact, Create_At, Update_At)
+values(@RoleID,@FullName, @Email, @Password, @Contact, @Create_At, @Update_At)
 end try
 begin catch
 select 
 ERROR_MESSAGE() as 'User Registration Failed...'
 end catch
 end
+
+exec SP_Users_Registration 'Karan Depale' , 
+                           'karan@gmail.com',
+						   'Karan@9131',
+						   '8132425252',
+						   '2023-10-29',
+						   '2023-10-29'
+
+
+Select * From Users;
+	drop table Users;
+	truncate table Users
+ 
