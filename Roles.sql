@@ -10,15 +10,22 @@ create table Roles(
  CreateAt Date,
  UpdateAt Date
 );
-Select * from Roles;
-
 insert into Roles values(
   'Admin',
+  '2021-01-10',
+  '2021-04-20'
+),
+(
+     'Doctor',
+  '2022-03-25',
+  '2022-05-20'
+),
+(
+     'patients',
   '2023-10-04',
   '2023-10-20'
 );
-
-
+Select * from Roles;
 
 
 
